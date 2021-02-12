@@ -38,7 +38,7 @@ do
 		cp $file HigherElevation/$fileName # Copy-paste file into HighElevation dir
 	fi
 done
-echo "Copy-pasting files into HigherElevation for values >200 ft has been completed"
+echo "Copy-paste files into HigherElevation for values >200 ft has been completed"
 
 echo
 
@@ -62,11 +62,17 @@ paste HELong.list HELat.list > HEStations.xy
 module load gmt
 
 # 2.2 Creating Plots
+# ---------------------------------------------------
+# Information on the plotting following made here:
+# -Cl/blue --> filling blue color for the lake
+# -Df --> full set of boundaries for political and coastlines
+# -Sc0.05 --> S-size, c-circle, 0.05<0.15; HighElevation markers < all station markers
+#----------------------------------------------------
 # 2.2.1 Using 'gmt pscoast' draws land and water surface
 #		Source: http://gmt.soest.hawaii.edu/doc/5.3.2/pscoast.html
-gmt pscoast -JU16/4i -R-93/-86/36/43 -B2f0.5 -Dh -Ia/blue -Na/orange -P -Sblue -K -V > SoilMoistureStations.ps
+gmt pscoast -JU16/4i -R-93/-86/36/43 -B2f0.5 -Cl/blue -Df -Ia/blue -Na/orange -P -K -V > SoilMoistureStations.ps
 
-# 2.2.2 Using 'gmt psxy' to draw X-Y data pair, 
+# 2.2.2 Using 'gmt psxy' to draw X-Y data pair,
 #	2.2.2.1 Adding black circles spotting the station locations.
 #		Source: http://gmt.soest.hawaii.edu/doc/5.3.2/psxy.html.
 gmt psxy AllStations.xy -J -R -Sc0.15 -Gblack -K -O -V >> SoilMoistureStations.ps
@@ -79,7 +85,7 @@ gmt psxy HEStations.xy -J -R -Sc0.08 -Gred -O -V >> SoilMoistureStations.ps
 ps2epsi SoilMoistureStations.ps SoilMoistureStations.epsi
 
 # 3.2 EPSI to TIF (150 dpi) Convertion process
-convert -density 150 SoilMoistureStations.epsi SoilMoistureStations.tif
+convert -density 150x150 SoilMoistureStations.epsi SoilMoistureStations.tif
 
 echo "All processes has been performed successfully! Good job!"
 
